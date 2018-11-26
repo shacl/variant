@@ -1,0 +1,9 @@
+[submodule "dependencies/variant"]
+	path = dependencies/variant
+	url = ssh://git@xcp-stash.lanl.gov:7999/mpark/variant.git
+[submodule "dependencies/shacl"]
+	path = dependencies/shacl
+	url = ssh://git@xcp-stash.lanl.gov:7999/scl/shacl.git
+[submodule "dependencies/hana"]
+	path = dependencies/hana
+	url = https://github.com/boostorg/hana.git
