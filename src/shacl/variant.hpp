@@ -9,6 +9,11 @@
 #define PREFIX std
 #endif
 
+#include "boost/hana.hpp"
+
+#include "shacl/trait.hpp"
+#include "shacl/ebo.hpp"
+
 namespace shacl {
 namespace variant {
 
@@ -29,11 +34,18 @@ static constexpr size_t npos = PREFIX::variant_npos;
 using PREFIX::holds_alternative;
 using PREFIX::get;
 using PREFIX::get_if;
-using PREFIX::visit;
 using PREFIX::swap;
 
 using bad_access = PREFIX::bad_variant_access;
 using monostate = PREFIX::monostate;
+
+#include "shacl/variant/IsInstance.hpp"
+
+#include "shacl/variant/detail.hpp"
+#include "shacl/variant/visit.hpp"
+#include "shacl/variant/cast.hpp"
+#include "shacl/variant/map.hpp"
+#include "shacl/variant/bind.hpp"
 
 }
 

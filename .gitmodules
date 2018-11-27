@@ -7,3 +7,6 @@
 [submodule "dependencies/hana"]
 	path = dependencies/hana
 	url = https://github.com/boostorg/hana.git
+[submodule "dependencies/Catch2"]
+	path = dependencies/Catch2
+	url = ssh://git@xcp-stash.lanl.gov:7999/catchorg/Catch2.git
