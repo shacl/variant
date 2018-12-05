@@ -1,47 +1,26 @@
 struct visit_fn {
   template<typename Tuple,
            std::enable_if_t
-           <boost::hana::size(Tuple{}) == hana::size_c<0>, bool> = true>
-  static constexpr auto unwrap(Tuple t) {
-    return t[hana::size_c<0>];
+           <boost::hana::size(Tuple{}) == boost::hana::size_c<1>,
+            bool> = true>
+  static constexpr auto unwrap(Tuple t)
+    -> std::decay_t<decltype(t[boost::hana::size_c<0>])>{
+    return t[boost::hana::size_c<0>];
   }
 
+public:
   template<typename Fn, typename... Args>
-  using Results =
+  using Result =
     typename decltype
     (unwrap
      (boost::hana::to_tuple
       (boost::hana::to_set
-       (boost::hana::transform
-        (boost::hana::cartesian_product
-         (boost::hana::make_tuple
-          (detail::arguments_of(type_c<Args>))),
-         boost::hana::reverse_partial
-         (boost::hana::unpack,
-          boost::hana::partial
-          (detail::invoke, boost::hana::type_c<Fn>)))))))::type;
+       (detail::possible_result_types_of
+        (boost::hana::type_c<Fn>, boost::hana::type_c<Args>...)))))::type;
 
+protected:
   template<typename Fn>
-  class Curry : ebo::Type<Fn> {
-    using Parent = ebo::Type<Fn>;
-
-  public:
-    using ebo::Type<Fn>::Type;
-
-    template<typename... Args>
-    constexpr auto operator()(Args&& args) const &
-      -> Result<const Parent&, Args...> {
-      decltype(auto) fn = Parent::get(ebo::index<0>);
-      return visit_fn{}(fn, std::forward<Args>(args)...);
-    }
-
-    template<typename... Args>
-    constexpr auto operator()(Args&&... args) &&
-      -> Result<Parent&&, Args...> {
-      return visit_fn{}(Parent::get(ebo::index<0>),
-                        std::forward<Args>(args)...);
-    }
-  };
+  using Curry = detail::Curry<Fn, visit_fn, Result>;
 
 public:
   template<typename Fn>
@@ -49,14 +28,14 @@ public:
     return Curry<std::decay_t<Fn>>{std::forward<Fn>(fn)};
   }
 
-  template<typename... Args>
+  template<typename Fn, typename... Args>
   constexpr auto
-  operator()(Args&&... args) const -> Result<Args...> {
-    return PREFIX::visit(std::forward<Args>(args)...);
+  operator()(Fn&& fn, Args&&... args) const -> Result<Fn, Args...> {
+    return PREFIX::visit(std::forward<Fn>(fn), std::forward<Args>(args)...);
   }
 };
 
-template<typename Args>
+template<typename... Args>
 auto visit(Args&&... args) -> trait::InvokeResult_t<visit_fn, Args...> {
   return visit_fn{}(std::forward<Args>(args)...);
 }

@@ -1,6 +1,8 @@
 #ifndef SHACL_VARIANT_HPP
 #define SHACL_VARIANT_HPP
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
 #if __cplusplus < 201703L
 #include "mpark/variant.hpp"
 #define PREFIX mpark
@@ -10,6 +12,7 @@
 #endif
 
 #include "boost/hana.hpp"
+#pragma GCC diagnostic pop
 
 #include "shacl/trait.hpp"
 #include "shacl/ebo.hpp"
@@ -28,6 +31,9 @@ static constexpr std::size_t size_v = size<T>::value;
 
 template <size_t I, class T>
 using alternative = PREFIX::variant_alternative<I, T>;
+
+template <size_t I, class T>
+using alternative_t = PREFIX::variant_alternative_t<I, T>;
 
 static constexpr size_t npos = PREFIX::variant_npos;
 

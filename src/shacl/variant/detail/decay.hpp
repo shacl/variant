@@ -1,7 +1,7 @@
 struct decay_fn {
   template<typename Type>
   constexpr auto operator()(Type) const {
-    return boost::hana::type_c<std::decay_t<Type::type>>
+    return boost::hana::type_c<std::decay_t<typename Type::type>>;
   }
 };
 

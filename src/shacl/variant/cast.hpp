@@ -8,29 +8,36 @@ class cast_fn {
     template<typename Arg,
              std::enable_if_t
              <std::is_constructible<Result, Arg>::value, bool> = true>
-    constexpr Result operator()(Arg&& arg){
+    constexpr Result operator()(Arg&& arg) const {
       return {std::forward<Arg>(arg)};
     }
 
     template<typename Arg,
              std::enable_if_t
              <not std::is_constructible<Result, Arg>::value, bool> = true>
-    constexpr Result operator()(Arg&& arg){
+    constexpr Result operator()(Arg&&) const {
       throw bad_cast{};
     }
   };
 
   static constexpr overload_fn overload{};
 
-public:
-  template<typename... Us>
-  constexpr auto operator()(const Type<Us...>& v) const {
-    return visit(overload, v);
+  template<typename Type,
+           std::enable_if_t
+           <IsInstance_v<std::decay_t<typename Type::type>>, bool> = true>
+  static constexpr bool possible(Type type){
+    return boost::hana::any
+            (boost::hana::transform
+             (detail::arguments_of(type),
+              boost::hana::partial
+              (detail::is_constructible, boost::hana::type_c<Result>))).value;
   }
 
-  template<typename... Us>
-  constexpr auto operator()(Type<Us...>&& v) const {
-    return visit(overload, std::move(v));
+public:
+  template<typename V,
+           std::enable_if_t<possible(boost::hana::type_c<V>), bool> = true>
+  constexpr auto operator()(V&& v) const {
+    return visit(overload, std::forward<V>(v));
   }
 };
 

@@ -1,0 +1,44 @@
+target_sources(variant INTERFACE
+  $<BUILD_INTERFACE:
+    ${CMAKE_CURRENT_LIST_DIR}/alternatives_of.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/arguments_of.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/arguments_type_product.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/construct.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/Curry.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/decay.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/demux.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/invoke.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/is_constructible.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/possible_result_types_of.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/sfinae.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/sum.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/to_variant.hpp>
+  $<INSTALL_INTERFACE:
+    include/shacl/variant/detail/alternatives_of.hpp
+    include/shacl/variant/detail/arguments_of.hpp
+    include/shacl/variant/detail/arguments_type_product.hpp
+    include/shacl/variant/detail/construct.hpp
+    include/shacl/variant/detail/Curry.hpp
+    include/shacl/variant/detail/decay.hppn
+    include/shacl/variant/detail/demux.hppn
+    include/shacl/variant/detail/invoke.hpp
+    include/shacl/variant/detail/is_constructible.hpp
+    include/shacl/variant/detail/possible_result_types_of.hpp
+    include/shacl/variant/detail/sfinae.hpp
+    include/shacl/variant/detail/sum.hpp
+    include/shacl/variant/detail/to_variant.hpp>)
+
+add_subdirectory(sfinae)
+
+if(variant.tests)
+  add_subdirectory(alternatives_of/test)
+  add_subdirectory(arguments_of/test)
+  add_subdirectory(argument_type_product/test)
+  add_subdirectory(construct/test)
+  add_subdirectory(decay/test)
+  add_subdirectory(invoke/test)
+  add_subdirectory(is_constructible/test)
+  add_subdirectory(possible_result_types_of/test)
+  add_subdirectory(sum/test)
+  add_subdirectory(to_variant/test)
+endif()
