@@ -45,6 +45,23 @@ using PREFIX::swap;
 using bad_access = PREFIX::bad_variant_access;
 using monostate = PREFIX::monostate;
 
+using in_place_t = PREFIX::in_place_t;
+
+static constexpr in_place_t in_place{};
+
+template<typename T>
+using in_place_type_t = PREFIX::in_place_type_t<T>;
+
+template<typename T>
+static constexpr in_place_type_t<T> in_place_type{};
+
+template<std::size I>
+using in_place_index_t = PREFIX::in_place_index_t<I>;
+
+template<std::size I>
+static constexpr in_place_index_t<I> in_place_index{};
+
+
 #include "shacl/variant/IsInstance.hpp"
 
 #include "shacl/variant/detail.hpp"
