@@ -19,8 +19,8 @@ target_sources(variant INTERFACE
     include/shacl/variant/detail/argument_type_product.hpp
     include/shacl/variant/detail/construct.hpp
     include/shacl/variant/detail/Curry.hpp
-    include/shacl/variant/detail/decay.hppn
-    include/shacl/variant/detail/demux.hppn
+    include/shacl/variant/detail/decay.hpp
+    include/shacl/variant/detail/demux.hpp
     include/shacl/variant/detail/invoke.hpp
     include/shacl/variant/detail/is_constructible.hpp
     include/shacl/variant/detail/possible_result_types_of.hpp
