@@ -2,7 +2,7 @@ target_sources(variant INTERFACE
   $<BUILD_INTERFACE:
     ${CMAKE_CURRENT_LIST_DIR}/alternatives_of.hpp
     ${CMAKE_CURRENT_LIST_DIR}/arguments_of.hpp
-    ${CMAKE_CURRENT_LIST_DIR}/arguments_type_product.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/argument_type_product.hpp
     ${CMAKE_CURRENT_LIST_DIR}/construct.hpp
     ${CMAKE_CURRENT_LIST_DIR}/Curry.hpp
     ${CMAKE_CURRENT_LIST_DIR}/decay.hpp
@@ -16,7 +16,7 @@ target_sources(variant INTERFACE
   $<INSTALL_INTERFACE:
     include/shacl/variant/detail/alternatives_of.hpp
     include/shacl/variant/detail/arguments_of.hpp
-    include/shacl/variant/detail/arguments_type_product.hpp
+    include/shacl/variant/detail/argument_type_product.hpp
     include/shacl/variant/detail/construct.hpp
     include/shacl/variant/detail/Curry.hpp
     include/shacl/variant/detail/decay.hppn

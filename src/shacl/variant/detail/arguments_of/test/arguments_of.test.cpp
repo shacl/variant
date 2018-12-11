@@ -9,7 +9,7 @@ SCENARIO("arguments_of"){
     using variant = shacl::Variant<int, double>;
 
     GIVEN("an type-value of the variant instantiation"){
-      boost::hana::type<variant> value;
+      constexpr boost::hana::type<variant> value{};
 
       THEN("arguments_of returns a tuple of rvalue type values"){
         constexpr auto reference =
@@ -21,7 +21,7 @@ SCENARIO("arguments_of"){
     }
 
     GIVEN("an type-value of the lvalue reference variant instantiation"){
-      boost::hana::type<variant&> value;
+      constexpr boost::hana::type<variant&> value{};
 
       THEN("arguments_of returns a tuple of lvalue reference type values"){
         constexpr auto reference =
@@ -33,7 +33,7 @@ SCENARIO("arguments_of"){
     }
 
     GIVEN("an type-value of the const lvalue reference variant instantiation"){
-      boost::hana::type<const variant&> value;
+      constexpr boost::hana::type<const variant&> value{};
 
       THEN("arguments_of returns a tuple of const lvalue reference type values"){
         constexpr auto reference =
@@ -45,7 +45,7 @@ SCENARIO("arguments_of"){
     }
 
     GIVEN("an type-value of the rvalue variant reference instantiation"){
-      boost::hana::type<variant&&> value;
+      constexpr boost::hana::type<variant&&> value{};
 
       THEN("arguments_of returns a tuple of rvalue reference type values"){
         constexpr auto reference =
@@ -61,7 +61,7 @@ SCENARIO("arguments_of"){
     using variant = shacl::Variant<int, double, int>;
 
     GIVEN("an type-value of the variant instantiation"){
-      boost::hana::type<variant> value;
+      constexpr boost::hana::type<variant> value{};
 
       THEN("arguments_of returns a tuple of rvalue type values"){
         constexpr auto reference =
@@ -73,7 +73,7 @@ SCENARIO("arguments_of"){
     }
 
     GIVEN("an type-value of the lvalue reference variant instantiation"){
-      boost::hana::type<variant&> value;
+      constexpr boost::hana::type<variant&> value{};
 
       THEN("arguments_of returns a tuple of lvalue reference type values"){
         constexpr auto reference =
@@ -85,7 +85,7 @@ SCENARIO("arguments_of"){
     }
 
     GIVEN("an type-value of the const lvalue reference variant instantiation"){
-      boost::hana::type<const variant&> value;
+      constexpr boost::hana::type<const variant&> value{};
 
       THEN("arguments_of returns a tuple of const lvalue reference type values"){
         constexpr auto reference =
@@ -97,7 +97,7 @@ SCENARIO("arguments_of"){
     }
 
     GIVEN("an type-value of the rvalue variant reference instantiation"){
-      boost::hana::type<variant&&> value;
+      constexpr boost::hana::type<variant&&> value{};
 
       THEN("arguments_of returns a tuple of rvalue reference type values"){
         constexpr auto reference =

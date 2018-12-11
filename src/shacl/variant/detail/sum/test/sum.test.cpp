@@ -7,8 +7,8 @@ SCENARIO("sum"){
   using boost::hana::type_c;
 
   GIVEN("two mutally exclusive variants"){
-    auto a = type_c<shacl::Variant<int, double>>;
-    auto b = type_c<shacl::Variant<int*, double*>>;
+    constexpr auto a = type_c<shacl::Variant<int, double>>;
+    constexpr auto b = type_c<shacl::Variant<int*, double*>>;
 
     THEN("the sum of the two types will be the union of the parameters"){
       constexpr auto reference = boost::hana::make_set(type_c<int>,
@@ -24,8 +24,8 @@ SCENARIO("sum"){
   }
 
   GIVEN("two partially overlapping variants"){
-    auto a = type_c<shacl::Variant<int, double, char>>;
-    auto b = type_c<shacl::Variant<int*, double*, char>>;
+    constexpr auto a = type_c<shacl::Variant<int, double, char>>;
+    constexpr auto b = type_c<shacl::Variant<int*, double*, char>>;
 
     THEN("the sum of the two types will be the union of the parameters"){
       constexpr auto reference = boost::hana::make_set(type_c<char>,
@@ -42,7 +42,7 @@ SCENARIO("sum"){
   }
 
   GIVEN("two totally overlapping variants"){
-    auto a = type_c<shacl::Variant<int, double, char>>;
+    constexpr auto a = type_c<shacl::Variant<int, double, char>>;
 
     THEN("the sum of the two types will be the union of the parameters"){
       constexpr auto reference = boost::hana::make_set(type_c<char>,

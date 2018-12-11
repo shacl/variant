@@ -11,8 +11,8 @@ struct bind_fn {
   using Curry = detail::Curry<Fn, bind_fn, Result>;
 
   template<typename Fn>
-  static constexpr auto copyEfficient =
-    boost::hana::bool_c
+  using copyEfficient =
+    boost::hana::bool_
     <std::is_trivially_constructible<std::decay_t<Fn>, Fn>::value
      and std::is_trivially_destructible<std::decay_t<Fn>>::value
      and (sizeof(std::decay_t<Fn>)
@@ -30,7 +30,7 @@ public:
     auto callable =
       boost::hana::demux
       (variant::visit(detail::construct<Result<Fn&, Arg, Args...>>))
-      (boost::hana::if_(copyEfficient<Fn&>, fn, std::ref(fn)));
+      (boost::hana::if_(copyEfficient<Fn&>{}, fn, std::ref(fn)));
     return variant::visit(callable,
                           std::forward<Arg>(arg),
                           std::forward<Args>(args)...);
@@ -42,7 +42,7 @@ public:
     const auto callable =
       boost::hana::demux
       (variant::visit(detail::construct<Result<const Fn&, Arg, Args...>>))
-      (boost::hana::if_(copyEfficient<const Fn&>, fn, std::ref(fn)));
+      (boost::hana::if_(copyEfficient<const Fn&>{}, fn, std::ref(fn)));
     return variant::visit(callable,
                           std::forward<Arg>(arg),
                           std::forward<Args>(args)...);

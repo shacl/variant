@@ -20,8 +20,6 @@ class cast_fn {
     }
   };
 
-  static constexpr overload_fn overload{};
-
   template<typename Type,
            std::enable_if_t
            <IsInstance_v<std::decay_t<typename Type::type>>, bool> = true>
@@ -37,7 +35,7 @@ public:
   template<typename V,
            std::enable_if_t<possible(boost::hana::type_c<V>), bool> = true>
   constexpr auto operator()(V&& v) const {
-    return visit(overload, std::forward<V>(v));
+    return visit(overload_fn{}, std::forward<V>(v));
   }
 };
 

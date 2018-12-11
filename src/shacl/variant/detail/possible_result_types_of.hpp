@@ -4,4 +4,4 @@ constexpr auto possible_result_types_of(Fn fn, Args... args)
     sfinae::transform
     (argument_type_product(args...),
      sfinae::reverse_partial
-     (sfinae::unpack, sfinae::partial(invoke, fn))));
+     (sfinae::unpack, sfinae::partial(invoke, fn))))

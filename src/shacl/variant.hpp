@@ -1,6 +1,9 @@
 #ifndef SHACL_VARIANT_HPP
 #define SHACL_VARIANT_HPP
 
+#include "shacl/trait.hpp"
+#include "shacl/ebo.hpp"
+
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #if __cplusplus < 201703L
@@ -13,9 +16,6 @@
 
 #include "boost/hana.hpp"
 #pragma GCC diagnostic pop
-
-#include "shacl/trait.hpp"
-#include "shacl/ebo.hpp"
 
 namespace shacl {
 namespace variant {
@@ -55,10 +55,10 @@ using in_place_type_t = PREFIX::in_place_type_t<T>;
 template<typename T>
 static constexpr in_place_type_t<T> in_place_type{};
 
-template<std::size I>
+template<std::size_t I>
 using in_place_index_t = PREFIX::in_place_index_t<I>;
 
-template<std::size I>
+template<std::size_t I>
 static constexpr in_place_index_t<I> in_place_index{};
 
 
