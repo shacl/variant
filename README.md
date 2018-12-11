@@ -25,14 +25,14 @@ shacl::Variant Class Template and shacl::variant Namespace
 
 At the center of this library is the `shacl::Variant` type alias template and
 the `shacl::variant` namespace. When compiling against the C++17 standard, the
-alias template refers to the `std::variant` class template. When compiling with
+alias template refers to the `std::variant` class template. When compiling
 against the C++14 standard, the standard library variant implementation is
 unavailable. Rather than require C++17, this library rebases on a variant
 implementation for C++11/14 provided by Micheal Park, the author of the libc++
 variant implementation. Micheal's variant backport, along with the associated
 support instructure, are defined within the `mpark` namespace. The
-`shacl::Variant` alias and `shacl::variant` to shield library consumers from
-this C++ standard dispatching.
+`shacl::Variant` alias and `shacl::variant` namespace to shield library
+consumers from this dispatching based on the C++ standard.
 
 Standard Capabilities
 ------------------------
@@ -43,15 +43,21 @@ under slightly different names in some cases.
 
 + `std::variant` => `shacl::Variant`
 + `std::bad_variant_access` => `shacl::variant::bad_access`
-+ `std::get_if` => `shacl::variant::get_if`
 + `std::get` => `shacl::variant::get`
++ `std::get_if` => `shacl::variant::get_if`
 + `std::holds_alternative` => `shacl::variant::holds_alternative`
++ `std::in_place` => `shacl::variant::in_place`
++ `std::in_place_t` => `shacl::variant::in_place_t`
++ `std::in_place_index` => `shacl::variant::in_place_index`
++ `std::in_place_index_t` => `shacl::variant::in_place_index_t`
++ `std::in_place_type` => `shacl::variant::in_place_type`
++ `std::in_place_type_t` => `shacl::variant::in_place_type_t`
 + `std::monostate` => `shacl::variant::monostate`
-+ `std::variant_alternative_t` => `shacl::variant::alternative_t`
 + `std::variant_alternative` => `shacl::variant::alternative`
++ `std::variant_alternative_t` => `shacl::variant::alternative_t`
 + `std::variant_npos` => `shacl::variant::npos`
-+ `std::variant_size_v` => `shacl::variant::size_v`
 + `std::variant_size` => `shacl::variant::size`
++ `std::variant_size_v` => `shacl::variant::size_v`
 
 Extended Capabilities
 ------------------------
@@ -62,6 +68,7 @@ amount of additional functionality.
 + [shacl::variant::cast](src/shacl/variant/cast/README.md)
 + [shacl::variant::visit](src/shacl/variant/visit/README.md)
 + [shacl::variant::map](src/shacl/variant/map/README.md)
++ [shacl::variant::bind](src/shacl/variant/bind/README.md)
 
 Build System
 --------------
@@ -106,13 +113,14 @@ documentation for more information.
 
 shacl::variant depends on two other shared component libraries (shacl) libraries:
 
-+ empty base optimization (ebo)
-+ compile time type traits (trait)
++ empty base optimization (shacl::ebo)
++ compile time type traits (shacl::trait)
 
-In addition, the shacl::variant library is dependent on a
-[Boost](https://www.boost.org/) header-only library.
+In addition, the shacl::variant library is dependent on Micheal Park's variant
+library and a [Boost](https://www.boost.org/) header-only library.
 
-+ boost heterogenous combinators (hana)
++ Micheal Park variant backpot (mpark::variant)
++ boost heterogenous combinators (boost::hana)
 
 Boost::hana is available in Boost version 1.61 or later. Support for MSVC is
 available in Boost version 1.69 or later. By default, the build
@@ -129,8 +137,10 @@ unit testing library.
 
 #### Testing
 The shacl::variant library is distributed with a small suite of tests.
-When shacl::variant is configured as the highest level CMake project, this suite of executables is built by default.
-These test executables are integrated with the CMake test driver program, [CTest](https://cmake.org/cmake/help/latest/manual/ctest.1.html).
+When shacl::variant is configured as the highest level CMake project, this suite
+of executables is built by default. These test executables are integrated with
+the CMake test driver program,
+[CTest](https://cmake.org/cmake/help/latest/manual/ctest.1.html).
 
 CMake supports a number of backends for compilation and linking.
 
@@ -226,35 +236,48 @@ cmake [-D CMAKE_INSTALL_PREFIX="path/to/installation"] \
 cmake --build . --config Release --target install
 ```
 
-Note that the last command of the installation sequence may require administrator privileges (e.g. `sudo`) if the installation root directory lies outside your home directory.
+Note that the last command of the installation sequence may require
+administrator privileges (e.g. `sudo`) if the installation root directory lies
+outside your home directory.
 
 This installation
-+ copies the shacl::variant header files to the `include/shacl` subdirectory of the installation root
-+ generates and copies several CMake configuration files to the `share/cmake/shacl/variant` subdirectory of the installation root
++ copies the shacl::variant header files to the `include/shacl` subdirectory of
+the installation root
++ generates and copies several CMake configuration files to the
+`share/cmake/shacl/variant` subdirectory of the installation root
 
-This latter step allows downstream CMake projects to consume shacl::variant via `find_package`, e.g.
+This latter step allows downstream CMake projects to consume shacl::variant via
+`find_package`, e.g.
 
 ```cmake
 find_package( shacl REQUIRED COMPONENTS variant )
 target_link_libraries( MyTarget PUBLIC shacl::variant )
 ```
 
-If `shacl::variant` was installed to a non-conventional location, it may be necessary for downstream projects to specify the shacl installation root directory via either
+If `shacl::variant` was installed to a non-conventional location, it may be
+necessary for downstream projects to specify the shacl installation root
+directory via either
 
 + the `CMAKE_PREFIX_PATH` configuration option,
 + the `CMAKE_PREFIX_PATH` environment variable, or
 + `shacl_DIR` environment variable.
 
-Please see the [Kitware documentation](https://cmake.org/cmake/help/v3.0/command/find_package.html) for more information.
+Please see the
+[Kitware documentation](https://cmake.org/cmake/help/v3.0/command/find_package.html)
+for more information.
 
-In addition, shacl::variant supports packaged relocatable installations via [CPack](https://cmake.org/cmake/help/latest/manual/cpack.1.html).
-Following configuration, from the build directory, invoke cpack as follows to generate a packaged installation:
+In addition, shacl::variant supports packaged relocatable installations via
+[CPack](https://cmake.org/cmake/help/latest/manual/cpack.1.html).
+Following configuration, from the build directory, invoke cpack as follows to
+generate a packaged installation:
 
 ```sh
 cpack -G <generator name> -C Release
 ```
 
-The list of supported generators varies from platform to platform. See the output of `cpack --help` for a complete list of supported generators on your platform.
+The list of supported generators varies from platform to platform. See the
+output of `cpack --help` for a complete list of supported generators on your
+platform.
 
 Recommended Introductory Material
 ------------------------
@@ -269,3 +292,4 @@ In suggested order
 
 + [Using Types Effectively](https://www.youtube.com/watch?v=ojZbFIQSdl8)
 + [The (Functional) Functor Pattern in C++](https://www.fpcomplete.com/blog/2012/07/the-functor-pattern-in-c)
++ [A Mathematical Introduction to Monads](https://boostorg.github.io/hana/group__group-Monad.html)
