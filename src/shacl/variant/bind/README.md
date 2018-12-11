@@ -154,6 +154,7 @@ int main(){
     throw std::runtime_error("unrecognized dispatch argument");
   }();
 
+
   shacl::variant::visit(print, shacl::variant::bind(classify, vid));
 }
 ```
