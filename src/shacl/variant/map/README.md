@@ -1,4 +1,4 @@
-### map
+### variant::map
 
 `shacl::variant::map`, function template repesenting something of a
 generalization of `shacl::variant::visit` and effectively providing a

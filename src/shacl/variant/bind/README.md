@@ -1,4 +1,4 @@
-### bind
+### variant::bind
 
 `shacl::variant::map` can be thought of as a generalization of
 `shacl::variant::visit` and as an implementation of the functor pattern on the
