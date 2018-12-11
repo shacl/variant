@@ -288,6 +288,7 @@ In suggested order
 1. [A gentle introduction to the classes and functions of the <variant> header](https://arne-mertz.de/2018/05/modern-c-features-stdvariant-and-stdvisit/)
 1. [A detailed introduction to the classes and functions of the <variant> header](https://www.bfilipek.com/2018/06/variant.html#performance-memory-considerations)
 
+  
 ### Related Material
 
 + [Using Types Effectively](https://www.youtube.com/watch?v=ojZbFIQSdl8)
