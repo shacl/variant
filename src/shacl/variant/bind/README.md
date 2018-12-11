@@ -2,7 +2,7 @@
 
 `shacl::variant::map` can be thought of as a generalization of
 `shacl::variant::visit` and as an implementation of the functor pattern on the
-`shacl::Variant`. In contrast,  `shacl::variant::bind` can be thought of as a
+`shacl::Variant`. In contrast, `shacl::variant::bind` can be thought of as a
 special case of `shacl::variant::map` and as an implementation of the monad
 pattern for `shacl::Variant`.
 
