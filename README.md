@@ -119,7 +119,7 @@ shacl::variant depends on two other shared component libraries (shacl) libraries
 In addition, the shacl::variant library is dependent on Micheal Park's variant
 library and a [Boost](https://www.boost.org/) header-only library.
 
-+ Micheal Park variant backpot (mpark::variant)
++ Micheal Park variant backport (mpark::variant)
 + boost heterogenous combinators (boost::hana)
 
 Boost::hana is available in Boost version 1.61 or later. Support for MSVC is
