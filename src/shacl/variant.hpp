@@ -14,7 +14,23 @@
 #define PREFIX std
 #endif
 
-#include "boost/hana.hpp"
+#include "boost/hana/all.hpp"
+#include "boost/hana/any.hpp"
+#include "boost/hana/cartesian_product.hpp"
+#include "boost/hana/fold.hpp"
+#include "boost/hana/for_each.hpp"
+#include "boost/hana/functional/apply.hpp"
+#include "boost/hana/functional/demux.hpp"
+#include "boost/hana/if.hpp"
+#include "boost/hana/set.hpp"
+#include "boost/hana/size.hpp"
+#include "boost/hana/traits.hpp"
+#include "boost/hana/transform.hpp"
+#include "boost/hana/tuple.hpp"
+#include "boost/hana/type.hpp"
+#include "boost/hana/union.hpp"
+#include "boost/hana/unpack.hpp"
+
 #pragma GCC diagnostic pop
 
 namespace shacl {
