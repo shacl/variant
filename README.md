@@ -89,12 +89,8 @@ following compilers are explicitly supported.
 + GNU g++ version 6.0.0 or later
 + LLVM clang++ version 3.5 or later
 + Xcode version 6.3/Apple clang++ version 9.0.0 or later
++ Intel icpc version 19.0 or later
 + Visual Studio 2017 Update 8 (version 15.8) or later
-
-While the Intel documentation specifies the Intel C++ compiler `icpc` version 17
-or later is conformant with the C++ 11 and 14 standards, even the latest version
-available as of the time of writing (verion 18 update 4), fails to support
-numerous C++11 features and has generally **very** poor support for the SFINAE.
 
 The current IBM XLC++ compiler (16.1.1) supports only a subset of the C++ 14
 standard. Of note, generalized constant expressions are currently unsupported.
