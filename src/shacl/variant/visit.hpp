@@ -36,6 +36,6 @@ public:
 };
 
 template<typename... Args>
-auto visit(Args&&... args) -> trait::InvokeResult_t<visit_fn, Args...> {
+constexpr auto visit(Args&&... args) -> trait::InvokeResult_t<visit_fn, Args...> {
   return visit_fn{}(std::forward<Args>(args)...);
 }
