@@ -1,4 +1,4 @@
-template<typename Fn, typename Host, template<typename...> typename Result >
+template<typename Fn, typename Host, template<typename...> class Result >
 class Curry : ebo::Type<Fn> {
   using Parent = ebo::Type<Fn>;
 
