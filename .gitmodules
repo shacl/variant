@@ -1,12 +1,12 @@
 [submodule "dependencies/mpark_variant"]
 	path = dependencies/mpark_variant
-	url = ssh://git@xcp-stash.lanl.gov:7999/mpark/variant.git
+	url = ../../mpark/variant.git
 [submodule "dependencies/shacl"]
 	path = dependencies/shacl
-	url = ssh://git@xcp-stash.lanl.gov:7999/scl/shacl.git
+	url = ../../scl/shacl.git
 [submodule "dependencies/hana"]
 	path = dependencies/hana
-	url = https://github.com/boostorg/hana.git
+	url = ../../ldionne/hana.git
 [submodule "dependencies/Catch2"]
 	path = dependencies/Catch2
-	url = ssh://git@xcp-stash.lanl.gov:7999/catchorg/Catch2.git
+	url = ../../catchorg/Catch2.git
