@@ -1,20 +1,18 @@
 target_sources(variant INTERFACE
-  $<BUILD_INTERFACE:
-    ${CMAKE_CURRENT_LIST_DIR}/IsInstance.hpp
-    ${CMAKE_CURRENT_LIST_DIR}/bind.hpp
-    ${CMAKE_CURRENT_LIST_DIR}/cast.hpp
-    ${CMAKE_CURRENT_LIST_DIR}/detail.hpp
-    ${CMAKE_CURRENT_LIST_DIR}/map.hpp
-    ${CMAKE_CURRENT_LIST_DIR}/normalize.hpp
-    ${CMAKE_CURRENT_LIST_DIR}/visit.hpp>
-  $<INSTALL_INTERFACE:
-    include/shacl/variant/IsInstance.hpp
-    include/shacl/variant/bind.hpp
-    include/shacl/variant/cast.hpp
-    include/shacl/variant/detail.hpp
-    include/shacl/variant/map.hpp
-    include/shacl/variant/normalize.hpp
-    include/shacl/variant/visit.hpp>)
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/IsInstance.hpp>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/bind.hpp>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/cast.hpp>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/detail.hpp>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/map.hpp>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/normalize.hpp>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/visit.hpp>
+  $<INSTALL_INTERFACE:include/shacl/variant/IsInstance.hpp>
+  $<INSTALL_INTERFACE:include/shacl/variant/bind.hpp>
+  $<INSTALL_INTERFACE:include/shacl/variant/cast.hpp>
+  $<INSTALL_INTERFACE:include/shacl/variant/detail.hpp>
+  $<INSTALL_INTERFACE:include/shacl/variant/map.hpp>
+  $<INSTALL_INTERFACE:include/shacl/variant/normalize.hpp>
+  $<INSTALL_INTERFACE:include/shacl/variant/visit.hpp>)
 
 add_subdirectory(detail)
 
