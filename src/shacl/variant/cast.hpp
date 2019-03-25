@@ -2,7 +2,7 @@ struct bad_cast : std::bad_cast {};
 
 template<typename T, typename... Ts>
 class cast_fn {
-  using Result = Type<T, Ts...>;
+  using Result = PREFIX::variant<T, Ts...>;
 
   struct overload_fn {
     template<typename Arg,
