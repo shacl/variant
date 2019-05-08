@@ -19,6 +19,18 @@ include(CMakePackageConfigHelpers)
 include(CTest)
 include(Git/Submodule/Packages)
 
+#
+# The file referenced in this block used by version branches of shacl::variant
+# to fix the version of the dependencies found by the find_package overload
+# provided by Git Submodule Packages.
+#
+if(EXISTS "${PROJECT_SOURCE_DIR}/cmake/specification.cmake")
+  set(git.submodule.packages.specification
+    "${PROJECT_SOURCE_DIR}/cmake/specification.cmake" CACHE FILEPATH
+    "(READ ONLY) Path to consumed git submodule packages specification file" FORCE)
+  include("${PROJECT_SOURCE_DIR}/cmake/specification.cmake")
+endif()
+
 CMAKE_DEPENDENT_OPTION(shacl.variant.tests
   "Build the variant tests and integrate with ctest"
   ON "BUILD_TESTING; NOT subproject" OFF)
