@@ -9,7 +9,7 @@ target_sources(variant INTERFACE
 
 add_subdirectory(detail)
 
-if(variant.tests)
+if(shacl.variant.tests)
   add_subdirectory(visit/test)
   add_subdirectory(cast/test)
   add_subdirectory(map/test)
