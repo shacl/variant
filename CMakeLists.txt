@@ -1,106 +1,131 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.12)
 
 set(subproject OFF)
 if(DEFINED PROJECT_NAME)
   set(subproject ON)
 endif()
 
-project(variant VERSION 0.1.0 LANGUAGES CXX)
+project(shacl-variant
+  VERSION 0.2.0
+  DESCRIPTION "Utilities for (and optional C++14 backport of) std::variant"
+  HOMEPAGE_URL "https://xcp-stash.lanl.gov/projects/SCL/repos/variant"
+  LANGUAGES CXX)
+
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/.cmake")
-include(CTest)
 include(CMakeDependentOption)
+include(CMakePackageConfigHelpers)
+include(CTest)
 include(Git/Submodule/Packages)
 
-CMAKE_DEPENDENT_OPTION(variant.tests
+CMAKE_DEPENDENT_OPTION(shacl.variant.tests
   "Build the variant tests and integrate with ctest"
   ON "BUILD_TESTING; NOT subproject" OFF)
 
 add_library(variant INTERFACE)
 add_library(shacl::variant ALIAS variant)
 
-find_package(shacl REQUIRED COMPONENTS trait ebo)
-find_package(mpark_variant REQUIRED)
-
-find_package(Boost 1.61)
-if(NOT Boost_FOUND)
-  find_package(hana REQUIRED)
-  add_library(Boost::boost ALIAS hana)
-endif()
-
-target_link_libraries(variant INTERFACE
-  shacl::trait
-  shacl::ebo
-  Boost::boost
-  $<$<VERSION_LESS:$<TARGET_PROPERTY:CXX_STANDARD>,17>:mpark_variant>)
-
-target_include_directories(variant INTERFACE
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
-  $<INSTALL_INTERFACE:include>)
-
-target_compile_features(variant INTERFACE cxx_std_14)
-
-if(variant.tests)
+if(shacl.variant.tests)
   include(Warnings)
   include(Sanitizers)
 
-  find_package(Catch2)
+  configure_file(
+    "${PROJECT_SOURCE_DIR}/cmake/CTestCustom.cmake"
+    "${PROJECT_BINARY_DIR}/CTestCustom.cmake"
+    COPYONLY)
 
   set(CMAKE_CXX_EXTENSIONS OFF)
 
-  add_library(testing INTERFACE)
-  add_library(shacl::variant::testing ALIAS testing)
+  add_library(shacl::variant::testing IMPORTED INTERFACE)
 
-  set_target_properties(testing PROPERTIES
+  set_target_properties(shacl::variant::testing PROPERTIES
     INTERFACE_WARN_ALL ON
     INTERFACE_WARN_ERROR ON)
 
-  set_property(TARGET testing APPEND PROPERTY COMPATIBLE_INTERFACE_BOOL
+  set_property(TARGET shacl::variant::testing APPEND PROPERTY
+    COMPATIBLE_INTERFACE_BOOL
     WARN_ALL WARN_ERROR)
 
-  target_link_libraries(testing INTERFACE
+  find_package(Catch2 REQUIRED)
+  target_link_libraries(shacl::variant::testing INTERFACE
+    shacl::cmake::Warnings_CXX
+    shacl::cmake::Sanitizers_CXX
     Catch2::Catch2
-    Warnings::Warnings_CXX
-    shacl::sanitizers_CXX
     shacl::variant)
 endif()
 
-add_subdirectory(src/shacl)
+find_package(shacl REQUIRED COMPONENTS trait ebo)
+target_link_libraries(variant INTERFACE
+  shacl::trait
+  shacl::ebo)
 
-install(TARGETS variant EXPORT variantTargets)
+find_package(Boost 1.69 QUIET)
+if(Boost_FOUND)
+  target_link_libraries(variant INTERFACE $<BUILD_INTERFACE:Boost::boost>)
+else()
+  find_package(Hana 1.5 REQUIRED)
+  target_link_libraries(variant INTERFACE $<BUILD_INTERFACE:hana>)
+endif()
+
+add_library(variant-14 INTERFACE)
+add_library(shacl::variant-14 ALIAS variant-14)
+
+find_package(mpark_variant)
+if(mpark_variant_FOUND)
+  target_link_libraries(variant-14 INTERFACE $<BUILD_INTERFACE:mpark_variant>)
+
+  string(CONCAT generator
+    "$<BUILD_INTERFACE:"
+      "$<$<VERSION_LESS:"
+        "$<TARGET_PROPERTY:CXX_STANDARD>,17>:shacl::variant-14>>")
+
+  target_link_libraries(variant INTERFACE ${generator})
+  unset(generator)
+
+  target_compile_features(variant INTERFACE cxx_std_14)
+else()
+  target_compile_features(variant INTERFACE cxx_std_17)
+endif()
+
+include(GNUInstallDirs)
+
+string(CONCAT prefix
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>"
+  "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
+
+target_include_directories(variant INTERFACE "${prefix}")
+
+add_subdirectory(include/shacl)
+
+install(DIRECTORY include/
+  DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
+  FILES_MATCHING PATTERN "*.hpp"
+  PATTERN "*test*" EXCLUDE)
+
+install(FILES
+  "${PROJECT_SOURCE_DIR}/.cmake/shacl-config.cmake"
+  DESTINATION share/cmake/shacl)
+
+install(TARGETS variant variant-14 EXPORT variantTargets)
 
 install(EXPORT variantTargets
-  FILE variantTargets.cmake
+  FILE "shacl-variant-targets.cmake"
   NAMESPACE shacl::
-  DESTINATION share/cmake/shacl/variant)
+  DESTINATION share/cmake/shacl-variant)
 
-install(DIRECTORY src/ DESTINATION include
-  PATTERN "*test*" EXCLUDE
-  PATTERN "*CMakeLists.txt" EXCLUDE
-  PATTERN "*~" EXCLUDE)
-
-include(CMakePackageConfigHelpers)
-write_basic_package_version_file("variantConfigVersion.cmake"
-  VERSION ${variant_VERSION}
+write_basic_package_version_file("shacl-variant-config-version.cmake"
+  VERSION ${PROJECT_VERSION}
   COMPATIBILITY SameMajorVersion)
 
 install(FILES
-  "${variant_SOURCE_DIR}/.cmake/variantConfig.cmake"
-  "${variant_BINARY_DIR}/variantConfigVersion.cmake"
-  DESTINATION share/cmake/shacl/variant)
-
-install(FILES
-  "${variant_SOURCE_DIR}/.cmake/shaclConfig.cmake"
-  DESTINATION share/cmake/shacl)
+  "${PROJECT_SOURCE_DIR}/cmake/shacl-variant-config.cmake"
+  "${PROJECT_BINARY_DIR}/shacl-variant-config-version.cmake"
+  DESTINATION share/cmake/shacl-variant)
 
 if(NOT subproject)
-  include(InstallRequiredSystemLibraries)
   set(CPACK_PACKAGE_VENDOR "Los Alamos National Laboratory")
   set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
-  set(CMAKE_PROJECT_HOMEPAGE_URL "https://xcp-stash.lanl.gov/projects/SCL/repos/variant")
-  set(CPACK_PACKAGE_DESCRIPTION_SUMMARY
-    "Utilities for (and optional C++14 backport of) std::variant")
   set(CPACK_PACKAGE_CONTACT "amccartney@lanl.gov")
   include(CPack)
 endif()
