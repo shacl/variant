@@ -95,9 +95,11 @@ if(mpark_variant_FOUND)
   target_link_libraries(variant INTERFACE ${generator})
   unset(generator)
 
-  target_compile_features(variant INTERFACE cxx_std_14)
+  target_compile_features(variant INTERFACE $<BUILD_INTERFACE:cxx_std_14>)
 else()
-  target_compile_features(variant INTERFACE cxx_std_17)
+  target_compile_features(variant INTERFACE $<BUILD_INTERFACE:cxx_std_17>)
+  message(WARNING
+    "shacl::variant requiring C++17 because mpark_variant was not found")
 endif()
 
 include(GNUInstallDirs)

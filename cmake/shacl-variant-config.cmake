@@ -1,5 +1,12 @@
 include(CMakeFindDependencyMacro)
-find_dependency(shacl COMPONENTS trait ebo)
+
+if(NOT TARGET shacl-trait)
+  find_dependency(shacl-trait)
+endif()
+
+if(NOT TARGET shacl-ebo)
+  find_dependency(shacl-ebo)
+endif()
 
 if(shacl-variant_FIND_QUIETLY)
   set(shacl-variant_FIND_QUIETLY_ARG QUIET)
@@ -15,8 +22,9 @@ if(mpark_variant_FOUND)
     $<$<VERSION_LESS:$<TARGET_PROPERTY:CXX_STANDARD>,17>:shacl::variant-14>)
 
 else()
-  if(NOT "${shacl-optional_FIND_QUIETLY_ARG}")
-    message(WARNING "shacl::variant C++-14 support requires mpark_variant")
+  if(NOT "${shacl-variant_FIND_QUIETLY_ARG}")
+    message(WARNING
+      "shacl::variant requiring C++17 because mpark_variant was not found")
   endif()
   set_target_properties(shacl::variant PROPERTIES INTERFACE_CXX_STANDARD 17)
 endif()
