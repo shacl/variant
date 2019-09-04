@@ -33,6 +33,8 @@ find_package(Boost 1.69 ${shacl-variant_FIND_QUIETLY_ARG})
 if(Boost_FOUND)
   target_link_libraries(shacl::variant INTERFACE Boost::boost)
 else()
-  find_dependency(Hana 1.5)
+  #TODO version 1.5 of hana is required, but the installed versions 
+  #of hana do not correctly export the version number.
+  find_dependency(Hana)
   target_link_libraries(shacl::variant INTERFACE hana)
 endif()
