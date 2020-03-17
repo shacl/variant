@@ -6,7 +6,7 @@ if(DEFINED PROJECT_NAME)
 endif()
 
 project(shacl-variant
-  VERSION 0.2.0
+  VERSION 0.2.1
   DESCRIPTION "Utilities for (and optional C++14 backport of) std::variant"
   HOMEPAGE_URL "https://xcp-stash.lanl.gov/projects/SCL/repos/variant"
   LANGUAGES CXX)

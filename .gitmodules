@@ -6,7 +6,7 @@
 	url = ../../scl/shacl.git
 [submodule "dependencies/hana"]
 	path = dependencies/Hana
-	url = ../../ldionne/hana.git
+	url = ../../scl/hana.git
 [submodule "dependencies/Catch2"]
 	path = dependencies/Catch2
 	url = ../../catchorg/Catch2.git
