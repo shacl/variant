@@ -275,6 +275,10 @@ The list of supported generators varies from platform to platform. See the
 output of `cpack --help` for a complete list of supported generators on your
 platform.
 
+## License
+
+See [license file.](./LICENSE)
+
 Recommended Introductory Material
 ------------------------
 
@@ -290,3 +294,4 @@ In suggested order
 + [Using Types Effectively](https://www.youtube.com/watch?v=ojZbFIQSdl8)
 + [The (Functional) Functor Pattern in C++](https://www.fpcomplete.com/blog/2012/07/the-functor-pattern-in-c)
 + [A Mathematical Introduction to Monads](https://boostorg.github.io/hana/group__group-Monad.html)
+
